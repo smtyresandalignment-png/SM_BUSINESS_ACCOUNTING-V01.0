@@ -1,0 +1,5140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#10243a">
+<title>SM BUSINESS ACCOUNTING</title>
+
+<style>
+*{
+ box-sizing:border-box;
+ -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+ margin:0;
+ padding:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:#eef3f8;
+ color:#172638;
+}
+
+button,input,select,textarea{
+ font-family:inherit;
+}
+
+button{
+ cursor:pointer;
+ touch-action:manipulation;
+}
+
+.hidden{
+ display:none!important;
+}
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+#loginScreen{
+ position:fixed;
+ inset:0;
+ z-index:99999;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ padding:20px;
+ background:
+ radial-gradient(circle at top left,#1d8fa5 0,#10243a 45%,#06131f 100%);
+}
+
+.login-box{
+ width:100%;
+ max-width:410px;
+ background:white;
+ border-radius:24px;
+ padding:30px 24px;
+ box-shadow:0 25px 70px rgba(0,0,0,.35);
+ text-align:center;
+}
+
+.login-logo{
+ width:88px;
+ height:88px;
+ margin:auto;
+ border-radius:25px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:linear-gradient(135deg,#10243a,#1d9aaa);
+ color:#ffd34d;
+ font-size:30px;
+ font-weight:900;
+ box-shadow:0 10px 25px rgba(0,0,0,.2);
+}
+
+.login-box h1{
+ margin:18px 0 5px;
+ font-size:22px;
+ color:#10243a;
+}
+
+.login-box p{
+ color:#71808c;
+ font-size:13px;
+ margin:0 0 20px;
+}
+
+.login-box input{
+ width:100%;
+ padding:14px;
+ margin:7px 0;
+ border:1px solid #ccd6de;
+ border-radius:11px;
+ outline:none;
+ font-size:16px;
+}
+
+.login-box input:focus{
+ border-color:#1593a6;
+ box-shadow:0 0 0 3px rgba(21,147,166,.12);
+}
+
+.login-button{
+ width:100%;
+ padding:14px;
+ margin-top:10px;
+ border:0;
+ border-radius:11px;
+ background:linear-gradient(135deg,#087d91,#15a6a5);
+ color:white;
+ font-size:15px;
+ font-weight:bold;
+}
+
+.login-error{
+ min-height:20px;
+ margin-top:10px;
+ color:#d63848;
+ font-size:13px;
+ font-weight:bold;
+}
+
+.login-info{
+ margin-top:15px;
+ color:#87939c;
+ font-size:11px;
+}
+
+/* =====================================================
+   APP HEADER
+===================================================== */
+
+.header{
+ position:fixed;
+ top:0;
+ left:0;
+ right:0;
+ height:68px;
+ z-index:2000;
+ display:flex;
+ align-items:center;
+ padding:7px 12px;
+ background:linear-gradient(135deg,#071b2b,#0c5268,#1495a0);
+ color:white;
+ box-shadow:0 3px 15px rgba(0,0,0,.18);
+}
+
+.logo{
+ width:52px;
+ height:52px;
+ border-radius:16px;
+ background:#071b2b;
+ border:3px solid #ffd34d;
+ color:#ffd34d;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:18px;
+ font-weight:900;
+ flex-shrink:0;
+}
+
+.brand{
+ margin-left:10px;
+}
+
+.brand h1{
+ margin:0;
+ font-size:17px;
+}
+
+.brand p{
+ margin:2px 0 0;
+ font-size:10px;
+ opacity:.78;
+}
+
+.header-actions{
+ margin-left:auto;
+ display:flex;
+ gap:7px;
+}
+
+.header-btn{
+ border:0;
+ border-radius:9px;
+ padding:9px 10px;
+ color:white;
+ background:rgba(255,255,255,.12);
+ font-weight:bold;
+ font-size:11px;
+}
+
+.header-btn.logout{
+ background:#c93648;
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+ position:fixed;
+ top:68px;
+ left:0;
+ bottom:0;
+ width:205px;
+ z-index:1900;
+ overflow-y:auto;
+ padding:10px;
+ background:#071b2b;
+}
+
+.menu{
+ width:100%;
+ min-height:45px;
+ margin-bottom:6px;
+ padding:7px 9px;
+ border:0;
+ border-radius:10px;
+ color:white;
+ background:#12364e;
+ text-align:left;
+ font-size:12px;
+ font-weight:bold;
+ display:flex;
+ align-items:center;
+ gap:9px;
+}
+
+.menu:hover,
+.menu.active{
+ background:linear-gradient(135deg,#087d91,#14a6a5);
+ box-shadow:0 5px 15px rgba(0,0,0,.18);
+}
+
+.menu-icon{
+ width:26px;
+ text-align:center;
+ font-size:18px;
+}
+
+/* =====================================================
+   PAGE AREA
+===================================================== */
+
+.main{
+ margin-left:205px;
+ padding:84px 20px 35px;
+ min-height:100vh;
+}
+
+.page{
+ display:none;
+ max-width:1150px;
+ margin:auto;
+ animation:pageIn .18s ease;
+}
+
+.page.active{
+ display:block;
+}
+
+@keyframes pageIn{
+ from{
+  opacity:0;
+  transform:translateY(5px);
+ }
+ to{
+  opacity:1;
+  transform:translateY(0);
+ }
+}
+
+.page-title{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ margin-bottom:15px;
+}
+
+.page-title h2{
+ margin:0;
+ color:#102f48;
+ font-size:22px;
+}
+
+.page-title p{
+ margin:4px 0 0;
+ color:#74828c;
+ font-size:12px;
+}
+
+/* =====================================================
+   BOXES
+===================================================== */
+
+.box{
+ background:white;
+ border-radius:16px;
+ padding:17px;
+ margin-bottom:15px;
+ box-shadow:0 4px 16px rgba(21,43,59,.07);
+}
+
+.box h3{
+ margin:0 0 12px;
+ color:#173b56;
+}
+
+.form-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+
+input,select,textarea{
+ width:100%;
+ padding:12px;
+ border:1px solid #ccd7df;
+ border-radius:9px;
+ outline:none;
+ background:white;
+ font-size:14px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+ border-color:#118d9f;
+ box-shadow:0 0 0 2px rgba(17,141,159,.1);
+}
+
+textarea{
+ resize:vertical;
+}
+
+.btn{
+ width:100%;
+ border:0;
+ border-radius:10px;
+ padding:13px;
+ margin-top:10px;
+ color:white;
+ font-size:13px;
+ font-weight:bold;
+}
+
+.btn.green{background:#15955e}
+.btn.blue{background:#087ea2}
+.btn.orange{background:#e27a20}
+.btn.red{background:#c93648}
+.btn.purple{background:#7453ad}
+.btn.dark{background:#34495e}
+.btn.teal{background:#078d95}
+
+.btn:active{
+ transform:scale(.98);
+}
+
+/* =====================================================
+   HOME CARDS
+===================================================== */
+
+.dashboard-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:12px;
+}
+
+.dashboard-card{
+ padding:18px;
+ border-radius:16px;
+ color:white;
+ min-height:115px;
+ box-shadow:0 7px 18px rgba(0,0,0,.09);
+}
+
+.dashboard-card:nth-child(1){
+ background:linear-gradient(135deg,#087d91,#13a8a0);
+}
+
+.dashboard-card:nth-child(2){
+ background:linear-gradient(135deg,#146bb2,#398bd0);
+}
+
+.dashboard-card:nth-child(3){
+ background:linear-gradient(135deg,#db721c,#f39a43);
+}
+
+.dashboard-card:nth-child(4){
+ background:linear-gradient(135deg,#16834f,#38ad73);
+}
+
+.dashboard-card small{
+ opacity:.85;
+ font-weight:bold;
+}
+
+.dashboard-card strong{
+ display:block;
+ font-size:21px;
+ margin-top:10px;
+}
+
+/* =====================================================
+   MENU HOME
+===================================================== */
+
+.home-actions{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px;
+}
+
+.home-action{
+ min-height:115px;
+ border:0;
+ border-radius:17px;
+ background:white;
+ box-shadow:0 4px 15px rgba(0,0,0,.07);
+ color:#17374f;
+ font-weight:bold;
+ font-size:13px;
+}
+
+.home-action span{
+ display:block;
+ font-size:32px;
+ margin-bottom:8px;
+}
+
+/* =====================================================
+   LISTS
+===================================================== */
+
+.list{
+ background:white;
+ border-radius:15px;
+ padding:14px;
+ box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.item{
+ padding:13px 4px;
+ border-bottom:1px solid #e5ebef;
+}
+
+.item:last-child{
+ border-bottom:0;
+}
+
+.item-head{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+}
+
+.item-title{
+ font-weight:bold;
+ color:#173a54;
+}
+
+.badge{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:30px;
+ background:#e7f7f6;
+ color:#087d91;
+ font-size:11px;
+ font-weight:bold;
+}
+
+.muted{
+ color:#77858f;
+ font-size:12px;
+}
+
+.empty{
+ padding:28px 10px;
+ text-align:center;
+ color:#7d8a93;
+}
+
+.notice{
+ background:#fff7d7;
+ border-left:4px solid #e6b51e;
+ padding:12px;
+ border-radius:8px;
+ margin-bottom:12px;
+ font-size:13px;
+}
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-wrap{
+ overflow-x:auto;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+}
+
+th,td{
+ padding:9px;
+ border-bottom:1px solid #e3e8ec;
+ text-align:left;
+ font-size:12px;
+ white-space:nowrap;
+}
+
+th{
+ background:#123b56;
+ color:white;
+}
+
+/* =====================================================
+   REPORT CARDS
+===================================================== */
+
+.report-grid{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+
+.report-card{
+ background:white;
+ padding:16px;
+ border-radius:14px;
+ box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.report-card small{
+ color:#71808a;
+ font-weight:bold;
+}
+
+.report-card strong{
+ display:block;
+ margin-top:7px;
+ color:#087d91;
+ font-size:20px;
+}
+
+/* =====================================================
+   INVENTORY
+===================================================== */
+
+.inventory-summary{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+}
+
+.inventory-stat{
+ background:white;
+ padding:15px;
+ border-radius:14px;
+ box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.inventory-stat small{
+ color:#71808a;
+ font-weight:bold;
+}
+
+.inventory-stat strong{
+ display:block;
+ margin-top:7px;
+ font-size:19px;
+ color:#087d91;
+}
+
+.stock-good{
+ color:#15955e;
+ font-weight:bold;
+}
+
+.stock-zero{
+ color:#c93648;
+ font-weight:bold;
+}
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+.account-banner{
+ background:linear-gradient(135deg,#10243a,#128d9c);
+ color:white;
+ border-radius:17px;
+ padding:20px;
+ margin-bottom:15px;
+}
+
+.account-banner strong{
+ display:block;
+ font-size:20px;
+ margin-top:5px;
+}
+
+/* =====================================================
+   TRANSFER
+===================================================== */
+
+.transfer-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:14px;
+}
+
+.transfer-card{
+ padding:25px;
+ border-radius:16px;
+ color:white;
+ text-align:center;
+}
+
+.transfer-card .icon{
+ font-size:48px;
+}
+
+.transfer-in{
+ background:linear-gradient(135deg,#087653,#1baa72);
+}
+
+.transfer-out{
+ background:linear-gradient(135deg,#d45e17,#ef9139);
+}
+
+/* =====================================================
+   INVOICE
+===================================================== */
+
+.invoice{
+ background:white;
+ padding:20px;
+ margin-bottom:14px;
+ border-radius:15px;
+ box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.invoice-title{
+ text-align:center;
+}
+
+.total-line{
+ display:flex;
+ justify-content:space-between;
+ padding:8px 0;
+ border-bottom:1px solid #edf0f2;
+ font-weight:bold;
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:850px){
+
+.sidebar{
+ width:165px;
+}
+
+.main{
+ margin-left:165px;
+}
+
+.dashboard-grid{
+ grid-template-columns:1fr 1fr;
+}
+
+.inventory-summary{
+ grid-template-columns:1fr 1fr;
+}
+
+.home-actions{
+ grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+.header{
+ height:62px;
+}
+
+.sidebar{
+ top:62px;
+ width:112px;
+ padding:6px;
+}
+
+.main{
+ margin-left:112px;
+ padding:76px 7px 25px;
+}
+
+.logo{
+ width:46px;
+ height:46px;
+ border-radius:13px;
+ font-size:16px;
+}
+
+.brand h1{
+ font-size:12px;
+}
+
+.brand p{
+ display:none;
+}
+
+.header-btn{
+ padding:8px 6px;
+ font-size:9px;
+}
+
+.menu{
+ min-height:42px;
+ font-size:9px;
+ padding:5px 3px;
+ gap:3px;
+}
+
+.menu-icon{
+ width:21px;
+ font-size:16px;
+}
+
+.form-grid{
+ grid-template-columns:1fr;
+}
+
+.dashboard-grid,
+.report-grid,
+.inventory-summary,
+.home-actions{
+ grid-template-columns:1fr;
+}
+
+.transfer-grid{
+ grid-template-columns:1fr;
+}
+
+.page-title h2{
+ font-size:18px;
+}
+
+}
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print{
+
+.header,
+.sidebar,
+.no-print{
+ display:none!important;
+}
+
+.main{
+ margin:0;
+ padding:0;
+}
+
+.page{
+ display:none!important;
+}
+
+#pageReports{
+ display:block!important;
+}
+
+body{
+ background:white;
+}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+ LOGIN
+===================================================== -->
+
+<div id="loginScreen">
+
+<div class="login-box">
+
+<div class="login-logo">SM</div>
+
+<h1>SM BUSINESS ACCOUNTING</h1>
+
+<p>Accounting • Inventory • Sales • Purchases</p>
+
+<form id="loginForm">
+
+<input
+ id="loginUsername"
+ type="text"
+ placeholder="Username"
+ autocomplete="username"
+ autocapitalize="none"
+ spellcheck="false"
+>
+
+<input
+ id="loginPassword"
+ type="password"
+ placeholder="Password"
+ autocomplete="current-password"
+>
+
+<button type="submit" class="login-button">
+🔐 LOGIN
+</button>
+
+<div id="loginError" class="login-error"></div>
+
+</form>
+
+<div class="login-info">
+Authorized access only
+</div>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+ APPLICATION
+===================================================== -->
+
+<div id="app" class="hidden">
+
+<header class="header">
+
+<div class="logo">SM</div>
+
+<div class="brand">
+<h1>SM BUSINESS ACCOUNTING</h1>
+<p>ACCOUNTING & INVENTORY SYSTEM</p>
+</div>
+
+<div class="header-actions">
+
+<button
+ id="headerSettings"
+ type="button"
+ class="header-btn"
+>
+⚙️
+</button>
+
+<button
+ id="logoutButton"
+ type="button"
+ class="header-btn logout"
+>
+🔒
+</button>
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+ SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+<button class="menu active" data-page="pageHome">
+<span class="menu-icon">🏠</span>
+HOME
+</button>
+
+<button class="menu" data-page="pageSales">
+<span class="menu-icon">💰</span>
+SALES
+</button>
+
+<button class="menu" data-page="pagePurchases">
+<span class="menu-icon">🛒</span>
+PURCHASES
+</button>
+
+<button class="menu" data-page="pageProducts">
+<span class="menu-icon">🔧</span>
+PRODUCTS
+</button>
+
+<button class="menu" data-page="pageInventory">
+<span class="menu-icon">📦</span>
+INVENTORY
+</button>
+
+<button class="menu" data-page="pageOpeningStock">
+<span class="menu-icon">📋</span>
+OPENING STOCK
+</button>
+
+<button class="menu" data-page="pageTransferIn">
+<span class="menu-icon">📥</span>
+TRANSFER IN
+</button>
+
+<button class="menu" data-page="pageTransferOut">
+<span class="menu-icon">📤</span>
+TRANSFER OUT
+</button>
+
+<button class="menu" data-page="pageExpenses">
+<span class="menu-icon">💸</span>
+EXPENSES
+</button>
+
+<button class="menu" data-page="pageSuppliers">
+<span class="menu-icon">🏢</span>
+SUPPLIERS
+</button>
+
+<button class="menu" data-page="pageReports">
+<span class="menu-icon">📊</span>
+REPORTS
+</button>
+
+<button class="menu" data-page="pageSettings">
+<span class="menu-icon">⚙️</span>
+SETTINGS
+</button>
+
+<button class="menu" data-page="pageBackup">
+<span class="menu-icon">💾</span>
+BACKUP
+</button>
+
+<button class="menu" data-page="pageRestore">
+<span class="menu-icon">♻️</span>
+RESTORE
+</button>
+
+</aside>
+
+
+<!-- =====================================================
+ MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<!-- =====================================================
+ HOME
+===================================================== -->
+
+<section class="page active" id="pageHome">
+
+<div class="page-title">
+<div>
+<h2>🏠 Business Overview</h2>
+<p>SM BUSINESS ACCOUNTING</p>
+</div>
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+<small>TOTAL SALES</small>
+<strong id="homeSales">TSh 0</strong>
+</div>
+
+<div class="dashboard-card">
+<small>TOTAL PURCHASES</small>
+<strong id="homePurchases">TSh 0</strong>
+</div>
+
+<div class="dashboard-card">
+<small>EXPENSES</small>
+<strong id="homeExpenses">TSh 0</strong>
+</div>
+
+<div class="dashboard-card">
+<small>NET PROFIT</small>
+<strong id="homeProfit">TSh 0</strong>
+</div>
+
+</div>
+
+<div class="box" style="margin-top:15px">
+
+<h3>Quick Access</h3>
+
+<div class="home-actions">
+
+<button class="home-action" data-page="pageSales">
+<span>💰</span>
+RECORD SALE
+</button>
+
+<button class="home-action" data-page="pagePurchases">
+<span>🛒</span>
+RECORD PURCHASE
+</button>
+
+<button class="home-action" data-page="pageOpeningStock">
+<span>📋</span>
+OPENING STOCK
+</button>
+
+<button class="home-action" data-page="pageInventory">
+<span>📦</span>
+VIEW INVENTORY
+</button>
+
+<button class="home-action" data-page="pageReports">
+<span>📊</span>
+REPORTS
+</button>
+
+<button class="home-action" data-page="pageSettings">
+<span>⚙️</span>
+ACCOUNT SETTINGS
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ SALES
+===================================================== -->
+
+<section class="page" id="pageSales">
+
+<div class="page-title">
+<div>
+<h2>💰 Sales</h2>
+<p>Record and manage sales</p>
+</div>
+</div>
+
+<div class="box">
+
+<div class="form-grid">
+
+<input id="saleDate" type="date">
+
+<input id="saleCustomer" placeholder="Customer name">
+
+<input
+ id="saleProduct"
+ list="productOptions"
+ placeholder="Product"
+>
+
+<input
+ id="saleQuantity"
+ type="number"
+ min="1"
+ value="1"
+ placeholder="Quantity"
+>
+
+<input
+ id="salePrice"
+ type="number"
+ min="0"
+ placeholder="Selling price TSh"
+>
+
+</div>
+
+<button id="saleButton" class="btn green">
+➕ RECORD SALE
+</button>
+
+</div>
+
+<div id="salesList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ PURCHASES
+===================================================== -->
+
+<section class="page" id="pagePurchases">
+
+<div class="page-title">
+<div>
+<h2>🛒 Purchases</h2>
+<p>Record stock purchases</p>
+</div>
+</div>
+
+<div class="box">
+
+<div class="form-grid">
+
+<input id="purchaseDate" type="date">
+
+<input id="purchaseSupplier" placeholder="Supplier">
+
+<input
+ id="purchaseProduct"
+ list="productOptions"
+ placeholder="Product"
+>
+
+<input
+ id="purchaseQuantity"
+ type="number"
+ min="1"
+ value="1"
+ placeholder="Quantity"
+>
+
+<input
+ id="purchasePrice"
+ type="number"
+ min="0"
+ placeholder="Buying price TSh"
+>
+
+</div>
+
+<button id="purchaseButton" class="btn blue">
+➕ RECORD PURCHASE
+</button>
+
+</div>
+
+<div id="purchasesList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ PRODUCTS
+===================================================== -->
+
+<section class="page" id="pageProducts">
+
+<div class="page-title">
+<div>
+<h2>🔧 Products</h2>
+<p>Create products before recording stock movements</p>
+</div>
+</div>
+
+<div class="box">
+
+<div class="form-grid">
+
+<input id="productCode" placeholder="Product code / SKU">
+
+<input id="productName" placeholder="Product name">
+
+<input id="productCategory" placeholder="Category">
+
+</div>
+
+<button id="productButton" class="btn green">
+➕ ADD PRODUCT
+</button>
+
+</div>
+
+<div class="box">
+
+<input id="productSearch" placeholder="🔎 Search product">
+
+</div>
+
+<div id="productsList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ OPENING STOCK
+===================================================== -->
+
+<section class="page" id="pageOpeningStock">
+
+<div class="page-title">
+<div>
+<h2>📋 Opening Stock</h2>
+<p>Add the stock you already had at the beginning of a period.</p>
+</div>
+</div>
+
+<div class="notice">
+Opening stock is included in the inventory calculation.
+<br><br>
+<strong>
+Current Balance =
+Opening Stock + Purchases + Transfer In − Sales − Transfer Out
+</strong>
+</div>
+
+<div class="box">
+
+<h3>➕ Add Opening Stock</h3>
+
+<div class="form-grid">
+
+<input
+ id="openingDate"
+ type="date"
+>
+
+<input
+ id="openingProduct"
+ list="productOptions"
+ placeholder="Product"
+>
+
+<input
+ id="openingQuantity"
+ type="number"
+ min="1"
+ placeholder="Opening quantity"
+>
+
+<input
+ id="openingCost"
+ type="number"
+ min="0"
+ placeholder="Cost per unit TSh"
+>
+
+</div>
+
+<button id="openingButton" class="btn purple">
+📋 ADD OPENING STOCK
+</button>
+
+</div>
+
+<div class="box">
+
+<h3>Opening Stock Records</h3>
+
+<div id="openingList"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ INVENTORY
+===================================================== -->
+
+<section class="page" id="pageInventory">
+
+<div class="page-title">
+<div>
+<h2>📦 Inventory</h2>
+<p>Current stock and monthly closing stock</p>
+</div>
+</div>
+
+<div class="inventory-summary">
+
+<div class="inventory-stat">
+<small>PRODUCTS</small>
+<strong id="inventoryProducts">0</strong>
+</div>
+
+<div class="inventory-stat">
+<small>TOTAL UNITS</small>
+<strong id="inventoryUnits">0</strong>
+</div>
+
+<div class="inventory-stat">
+<small>STOCK VALUE</small>
+<strong id="inventoryValue">TSh 0</strong>
+</div>
+
+<div class="inventory-stat">
+<small>LOW / ZERO STOCK</small>
+<strong id="inventoryLow">0</strong>
+</div>
+
+</div>
+
+<div class="box" style="margin-top:15px">
+
+<h3>Current Stock Balance</h3>
+
+<div id="inventoryList"></div>
+
+</div>
+
+<div class="box">
+
+<h3>📅 Monthly Closing Stock</h3>
+
+<div class="form-grid">
+
+<input id="inventoryMonth" type="month">
+
+<select id="inventoryProductFilter">
+<option value="">All Products</option>
+</select>
+
+</div>
+
+<button id="monthlyInventoryButton" class="btn teal">
+📊 CALCULATE MONTHLY STOCK
+</button>
+
+<div id="monthlyInventoryResult" style="margin-top:12px"></div>
+
+</div>
+
+<div class="box">
+
+<h3>🔄 Inventory Movement</h3>
+
+<div id="movementList"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ TRANSFER IN
+===================================================== -->
+
+<section class="page" id="pageTransferIn">
+
+<div class="page-title">
+<div>
+<h2>📥 Transfer In</h2>
+<p>Receive stock from another location</p>
+</div>
+</div>
+
+<div class="transfer-grid">
+
+<div class="transfer-card transfer-in">
+<div class="icon">📥</div>
+<h3>TRANSFER IN</h3>
+<p>Stock added to this location.</p>
+</div>
+
+<div class="box">
+
+<input id="transferInDate" type="date">
+
+<input
+ id="transferInProduct"
+ list="productOptions"
+ placeholder="Product"
+>
+
+<input
+ id="transferInQuantity"
+ type="number"
+ min="1"
+ placeholder="Quantity"
+>
+
+<input id="transferInFrom" placeholder="From location">
+
+<input id="transferInNote" placeholder="Note">
+
+<button id="transferInButton" class="btn green">
+📥 CONFIRM TRANSFER IN
+</button>
+
+</div>
+
+</div>
+
+<div id="transferInList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ TRANSFER OUT
+===================================================== -->
+
+<section class="page" id="pageTransferOut">
+
+<div class="page-title">
+<div>
+<h2>📤 Transfer Out</h2>
+<p>Move stock to another location</p>
+</div>
+</div>
+
+<div class="transfer-grid">
+
+<div class="transfer-card transfer-out">
+<div class="icon">📤</div>
+<h3>TRANSFER OUT</h3>
+<p>Stock removed from this location.</p>
+</div>
+
+<div class="box">
+
+<input id="transferOutDate" type="date">
+
+<input
+ id="transferOutProduct"
+ list="productOptions"
+ placeholder="Product"
+>
+
+<input
+ id="transferOutQuantity"
+ type="number"
+ min="1"
+ placeholder="Quantity"
+>
+
+<input id="transferOutTo" placeholder="To location">
+
+<input id="transferOutNote" placeholder="Note">
+
+<button id="transferOutButton" class="btn orange">
+📤 CONFIRM TRANSFER OUT
+</button>
+
+</div>
+
+</div>
+
+<div id="transferOutList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ EXPENSES
+===================================================== -->
+
+<section class="page" id="pageExpenses">
+
+<div class="page-title">
+<div>
+<h2>💸 Expenses</h2>
+<p>Record business expenses</p>
+</div>
+</div>
+
+<div class="box">
+
+<input id="expenseDate" type="date">
+
+<input id="expenseName" placeholder="Expense description">
+
+<input
+ id="expenseAmount"
+ type="number"
+ min="0"
+ placeholder="Amount TSh"
+>
+
+<button id="expenseButton" class="btn purple">
+➕ RECORD EXPENSE
+</button>
+
+</div>
+
+<div id="expensesList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ SUPPLIERS
+===================================================== -->
+
+<section class="page" id="pageSuppliers">
+
+<div class="page-title">
+<div>
+<h2>🏢 Suppliers</h2>
+<p>Manage suppliers</p>
+</div>
+</div>
+
+<div class="box">
+
+<input id="supplierName" placeholder="Supplier name">
+
+<input id="supplierPhone" placeholder="Phone number">
+
+<button id="supplierButton" class="btn blue">
+➕ ADD SUPPLIER
+</button>
+
+</div>
+
+<div id="suppliersList" class="list"></div>
+
+</section>
+
+
+<!-- =====================================================
+ REPORTS
+===================================================== -->
+
+<section class="page" id="pageReports">
+
+<div class="page-title">
+<div>
+<h2>📊 Reports</h2>
+<p>Business financial reports</p>
+</div>
+</div>
+
+<div class="report-grid">
+
+<div class="report-card">
+<small>TOTAL SALES</small>
+<strong id="totalSales">TSh 0</strong>
+</div>
+
+<div class="report-card">
+<small>TOTAL PURCHASES</small>
+<strong id="totalPurchases">TSh 0</strong>
+</div>
+
+<div class="report-card">
+<small>COST OF GOODS SOLD</small>
+<strong id="totalCost">TSh 0</strong>
+</div>
+
+<div class="report-card">
+<small>EXPENSES</small>
+<strong id="totalExpenses">TSh 0</strong>
+</div>
+
+<div class="report-card">
+<small>GROSS PROFIT</small>
+<strong id="grossProfit">TSh 0</strong>
+</div>
+
+<div class="report-card">
+<small>NET PROFIT</small>
+<strong id="netProfit">TSh 0</strong>
+</div>
+
+</div>
+
+<div class="box" style="margin-top:15px">
+
+<h3>Monthly Financial Report</h3>
+
+<div class="form-grid">
+
+<input id="reportMonth" type="month">
+
+</div>
+
+<button id="monthlyReportButton" class="btn teal">
+📊 GENERATE MONTHLY REPORT
+</button>
+
+<div id="monthlyReportResult"></div>
+
+</div>
+
+<div class="box">
+
+<h3>🧾 Sales Invoices</h3>
+
+<div id="invoiceList"></div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ SETTINGS
+===================================================== -->
+
+<section class="page" id="pageSettings">
+
+<div class="page-title">
+<div>
+<h2>⚙️ Account Settings</h2>
+<p>Change your login username and password</p>
+</div>
+</div>
+
+<div class="account-banner">
+CURRENT ACCOUNT
+<strong id="currentUsername">smtyres</strong>
+</div>
+
+<div class="box">
+
+<h3>🔐 Change Login Details</h3>
+
+<div class="notice">
+Enter the new username and password, then save.
+The password is stored locally on this device.
+</div>
+
+<input
+ id="newUsername"
+ placeholder="New username"
+ autocomplete="off"
+>
+
+<input
+ id="newPassword"
+ type="password"
+ placeholder="New password"
+ autocomplete="new-password"
+>
+
+<input
+ id="confirmPassword"
+ type="password"
+ placeholder="Confirm new password"
+ autocomplete="new-password"
+>
+
+<button id="changeLoginButton" class="btn blue">
+🔐 SAVE LOGIN DETAILS
+</button>
+
+</div>
+
+<div class="box">
+
+<h3>Session</h3>
+
+<button id="settingsLogout" class="btn red">
+🔒 LOGOUT
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ BACKUP
+===================================================== -->
+
+<section class="page" id="pageBackup">
+
+<div class="page-title">
+<div>
+<h2>💾 Backup</h2>
+<p>Protect your accounting data</p>
+</div>
+</div>
+
+<div class="box">
+
+<div class="notice">
+Create regular backups before changing or deleting data.
+</div>
+
+<button id="jsonBackupButton" class="btn green">
+💾 DOWNLOAD DATA BACKUP
+</button>
+
+<button id="copyBackupButton" class="btn blue">
+📋 COPY BACKUP DATA
+</button>
+
+<button id="pdfBackupButton" class="btn orange">
+📄 PRINT / PDF REPORT
+</button>
+
+<textarea
+ id="backupText"
+ rows="14"
+ readonly
+ placeholder="Backup data will appear here."
+></textarea>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+ RESTORE
+===================================================== -->
+
+<section class="page" id="pageRestore">
+
+<div class="page-title">
+<div>
+<h2>♻️ Restore</h2>
+<p>Restore a previous backup</p>
+</div>
+</div>
+
+<div class="box">
+
+<div class="notice">
+Choose a JSON backup created by this application or paste the JSON below.
+</div>
+
+<input
+ id="restoreFile"
+ type="file"
+ accept=".json,application/json"
+>
+
+<textarea
+ id="restoreText"
+ rows="14"
+ placeholder="Paste backup JSON here"
+></textarea>
+
+<button id="restoreButton" class="btn purple">
+♻️ RESTORE DATA
+</button>
+
+<button id="deleteButton" class="btn red">
+⚠️ DELETE ALL ACCOUNTING DATA
+</button>
+
+</div>
+
+</section>
+
+
+</main>
+
+<datalist id="productOptions"></datalist>
+
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+const STORAGE_KEY="SM_BUSINESS_ACCOUNTING_V4";
+const OLD_STORAGE_KEY="SM_TYRES_ALIGNMENT_FINAL_V3";
+
+const LOGIN_KEY="SM_BUSINESS_LOGIN_V1";
+const SESSION_KEY="SM_BUSINESS_SESSION_V1";
+
+
+/* =========================================================
+   DEFAULT DATA
+========================================================= */
+
+let data={
+ products:{},
+ sales:[],
+ purchases:[],
+ openingStock:[],
+ expenses:[],
+ suppliers:[],
+ movements:[],
+ transferIn:[],
+ transferOut:[],
+ invoiceNumber:0
+};
+
+
+/* =========================================================
+   ELEMENT
+========================================================= */
+
+function $(id){
+ return document.getElementById(id);
+}
+
+
+/* =========================================================
+   TODAY
+========================================================= */
+
+function today(){
+
+ const d=new Date();
+
+ return d.getFullYear()+"-"+
+ String(d.getMonth()+1).padStart(2,"0")+"-"+
+ String(d.getDate()).padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   CURRENT MONTH
+========================================================= */
+
+function currentMonth(){
+ return today().substring(0,7);
+}
+
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function money(value){
+
+ let n=Number(value);
+
+ if(!Number.isFinite(n)){
+  n=0;
+ }
+
+ return "TSh "+n.toLocaleString(
+  "en-TZ",
+  {
+   minimumFractionDigits:0,
+   maximumFractionDigits:2
+  }
+ );
+
+}
+
+
+/* =========================================================
+   VALUE
+========================================================= */
+
+function val(id){
+
+ const node=$(id);
+
+ if(!node){
+  return "";
+ }
+
+ return String(node.value||"").trim();
+
+}
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function safe(value){
+
+ return String(value==null?"":value)
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   DEFAULT LOGIN
+========================================================= */
+
+function getLogin(){
+
+ const saved=localStorage.getItem(LOGIN_KEY);
+
+ if(!saved){
+
+  return{
+   username:"smtyres",
+   password:"4321"
+  };
+
+ }
+
+ try{
+
+  const x=JSON.parse(saved);
+
+  if(
+   x &&
+   typeof x.username==="string" &&
+   typeof x.password==="string"
+  ){
+
+   return x;
+
+  }
+
+ }catch(e){}
+
+ return{
+  username:"smtyres",
+  password:"4321"
+ };
+
+}
+
+
+/* =========================================================
+   SAVE LOGIN
+========================================================= */
+
+function saveLogin(username,password){
+
+ localStorage.setItem(
+  LOGIN_KEY,
+  JSON.stringify({
+   username:username,
+   password:password
+  })
+ );
+
+}
+
+
+/* =========================================================
+   LOGIN SCREEN
+========================================================= */
+
+function showLogin(){
+
+ $("loginScreen").classList.remove("hidden");
+ $("app").classList.add("hidden");
+
+ setTimeout(function(){
+  $("loginUsername").focus();
+ },100);
+
+}
+
+
+/* =========================================================
+   SHOW APP
+========================================================= */
+
+function showApp(){
+
+ $("loginScreen").classList.add("hidden");
+ $("app").classList.remove("hidden");
+
+ $("currentUsername").textContent=
+ getLogin().username;
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function login(){
+
+ const username=$("loginUsername").value.trim();
+ const password=$("loginPassword").value;
+
+ const account=getLogin();
+
+ $("loginError").textContent="";
+
+ if(
+  username===account.username &&
+  password===account.password
+ ){
+
+  sessionStorage.setItem(
+   SESSION_KEY,
+   "true"
+  );
+
+  $("loginPassword").value="";
+
+  showApp();
+  renderAll();
+
+  return;
+
+ }
+
+ $("loginError").textContent=
+ "Incorrect username or password.";
+
+ $("loginPassword").value="";
+ $("loginPassword").focus();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+ sessionStorage.removeItem(SESSION_KEY);
+
+ $("loginUsername").value="";
+ $("loginPassword").value="";
+ $("loginError").textContent="";
+
+ showLogin();
+
+}
+
+
+/* =========================================================
+   CHECK SESSION
+========================================================= */
+
+function checkSession(){
+
+ if(
+  sessionStorage.getItem(SESSION_KEY)==="true"
+ ){
+
+  showApp();
+
+ }else{
+
+  showLogin();
+
+ }
+
+}
+
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+function save(){
+
+ try{
+
+  localStorage.setItem(
+   STORAGE_KEY,
+   JSON.stringify(data)
+  );
+
+ }catch(error){
+
+  alert(
+   "Unable to save data on this device."
+  );
+
+ }
+
+}
+
+
+/* =========================================================
+   NORMALIZE DATA
+========================================================= */
+
+function normalizeData(x){
+
+ const result={
+  products:{},
+  sales:[],
+  purchases:[],
+  openingStock:[],
+  expenses:[],
+  suppliers:[],
+  movements:[],
+  transferIn:[],
+  transferOut:[],
+  invoiceNumber:0
+ };
+
+
+ if(!x || typeof x!=="object"){
+  return result;
+ }
+
+
+ result.products=
+ x.products &&
+ typeof x.products==="object"
+ ?
+ x.products
+ :
+ {};
+
+
+ result.sales=
+ Array.isArray(x.sales)
+ ?
+ x.sales
+ :
+ [];
+
+
+ result.purchases=
+ Array.isArray(x.purchases)
+ ?
+ x.purchases
+ :
+ [];
+
+
+ result.openingStock=
+ Array.isArray(x.openingStock)
+ ?
+ x.openingStock
+ :
+ [];
+
+
+ result.expenses=
+ Array.isArray(x.expenses)
+ ?
+ x.expenses
+ :
+ [];
+
+
+ result.suppliers=
+ Array.isArray(x.suppliers)
+ ?
+ x.suppliers
+ :
+ [];
+
+
+ result.movements=
+ Array.isArray(x.movements)
+ ?
+ x.movements
+ :
+ [];
+
+
+ result.transferIn=
+ Array.isArray(x.transferIn)
+ ?
+ x.transferIn
+ :
+ [];
+
+
+ result.transferOut=
+ Array.isArray(x.transferOut)
+ ?
+ x.transferOut
+ :
+ [];
+
+
+ result.invoiceNumber=
+ Number(x.invoiceNumber||0);
+
+
+ /* ---------------------------------------------
+    OLD VERSION COMPATIBILITY
+ --------------------------------------------- */
+
+ result.sales.forEach(function(s){
+
+  if(s.costTotal==null){
+
+   const p=result.products[s.product];
+
+   const cost=
+    p
+    ?
+    Number(p.cost||0)
+    :
+    0;
+
+   s.costTotal=
+    Number(s.quantity||0)*cost;
+
+  }
+
+  if(s.profit==null){
+
+   s.profit=
+    Number(s.total||0)-
+    Number(s.costTotal||0);
+
+  }
+
+ });
+
+
+ return result;
+
+}
+
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+function load(){
+
+ let saved=
+  localStorage.getItem(STORAGE_KEY);
+
+
+ /* Try old application data if V4 doesn't exist */
+
+ if(!saved){
+
+  saved=
+   localStorage.getItem(OLD_STORAGE_KEY);
+
+ }
+
+
+ if(!saved){
+
+  data=normalizeData(null);
+
+  return;
+
+ }
+
+
+ try{
+
+  data=
+   normalizeData(
+    JSON.parse(saved)
+   );
+
+ }catch(error){
+
+  console.error(error);
+
+  data=normalizeData(null);
+
+ }
+
+}
+
+
+/* =========================================================
+   SET DATES
+========================================================= */
+
+function setDates(){
+
+ $("saleDate").value=today();
+ $("purchaseDate").value=today();
+ $("openingDate").value=today();
+ $("expenseDate").value=today();
+ $("transferInDate").value=today();
+ $("transferOutDate").value=today();
+
+ $("inventoryMonth").value=currentMonth();
+ $("reportMonth").value=currentMonth();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(pageId){
+
+ const pages=
+  document.querySelectorAll(".page");
+
+ pages.forEach(function(page){
+
+  page.classList.remove("active");
+
+ });
+
+
+ const target=$(pageId);
+
+ if(target){
+
+  target.classList.add("active");
+
+ }
+
+
+ document
+ .querySelectorAll(".menu")
+ .forEach(function(button){
+
+  button.classList.toggle(
+   "active",
+   button.dataset.page===pageId
+  );
+
+ });
+
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+
+
+ renderPage(pageId);
+
+}
+
+
+/* =========================================================
+   PRODUCT CREATION
+========================================================= */
+
+function addProduct(){
+
+ const name=val("productName");
+ const code=val("productCode");
+ const category=
+  val("productCategory")||"General";
+
+
+ if(!name){
+
+  alert("Enter product name.");
+
+  return;
+
+ }
+
+
+ if(data.products[name]){
+
+  alert(
+   "This product already exists."
+  );
+
+  return;
+
+ }
+
+
+ data.products[name]={
+  name:name,
+  code:code,
+  category:category,
+  stock:0,
+  cost:0
+ };
+
+
+ save();
+ renderAll();
+
+
+ $("productName").value="";
+ $("productCode").value="";
+ $("productCategory").value="";
+
+
+ alert(
+  "Product added successfully."
+ );
+
+}
+
+
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
+
+function deleteProduct(name){
+
+ if(!data.products[name]){
+  return;
+ }
+
+ if(
+  !confirm(
+   "Delete product \""+name+"\"?"
+  )
+ ){
+  return;
+ }
+
+ delete data.products[name];
+
+ save();
+ renderAll();
+
+}
+
+
+/* =========================================================
+   RECORD OPENING STOCK
+========================================================= */
+
+function recordOpeningStock(){
+
+ const date=
+  val("openingDate")||today();
+
+ const product=
+  val("openingProduct");
+
+ const quantity=
+  Number($("openingQuantity").value);
+
+ const cost=
+  Number($("openingCost").value);
+
+
+ if(
+  !product ||
+  !Number.isFinite(quantity) ||
+  quantity<=0 ||
+  !Number.isFinite(cost) ||
+  cost<0
+ ){
+
+  alert(
+   "Enter date, product, quantity and cost."
+  );
+
+  return;
+
+ }
+
+
+ if(!data.products[product]){
+
+  data.products[product]={
+   name:product,
+   code:"",
+   category:"General",
+   stock:0,
+   cost:cost
+  };
+
+ }
+
+
+ const p=data.products[product];
+
+
+ /* Opening stock is a transaction.
+    It is NOT added permanently to p.stock.
+    Current stock is calculated from all transactions.
+ */
+
+ const record={
+  id:Date.now(),
+  date:date,
+  product:product,
+  quantity:quantity,
+  cost:cost
+ };
+
+
+ data.openingStock.push(record);
+
+
+ data.movements.push({
+
+  id:Date.now()+1,
+  date:date,
+  type:"OPENING STOCK",
+  product:product,
+  quantity:quantity,
+  location:"Opening Balance",
+  note:"Opening stock entered"
+
+ });
+
+
+ if(!p.cost || p.cost===0){
+  p.cost=cost;
+ }
+
+
+ save();
+ renderAll();
+
+
+ $("openingProduct").value="";
+ $("openingQuantity").value="";
+ $("openingCost").value="";
+
+
+ alert(
+  "Opening stock added successfully.\n\n"+
+  product+
+  ": "+
+  quantity+
+  " unit(s)"
+ );
+
+}
+
+
+/* =========================================================
+   CURRENT STOCK CALCULATION
+========================================================= */
+
+function getStock(product,untilDate){
+
+ let balance=0;
+
+ const end=
+  untilDate||"9999-12-31";
+
+
+ /* Opening stock */
+
+ data.openingStock.forEach(function(x){
+
+  if(
+   x.product===product &&
+   String(x.date)<=end
+  ){
+
+   balance+=Number(x.quantity)||0;
+
+  }
+
+ });
+
+
+ /* Purchases */
+
+ data.purchases.forEach(function(x){
+
+  if(
+   x.product===product &&
+   String(x.date)<=end
+  ){
+
+   balance+=Number(x.quantity)||0;
+
+  }
+
+ });
+
+
+ /* Transfer In */
+
+ data.transferIn.forEach(function(x){
+
+  if(
+   x.product===product &&
+   String(x.date)<=end
+  ){
+
+   balance+=Number(x.quantity)||0;
+
+  }
+
+ });
+
+
+ /* Sales */
+
+ data.sales.forEach(function(x){
+
+  if(
+   x.product===product &&
+   String(x.date)<=end
+  ){
+
+   balance-=Number(x.quantity)||0;
+
+  }
+
+ });
+
+
+ /* Transfer Out */
+
+ data.transferOut.forEach(function(x){
+
+  if(
+   x.product===product &&
+   String(x.date)<=end
+  ){
+
+   balance-=Number(x.quantity)||0;
+
+  }
+
+ });
+
+
+ return balance;
+
+}
+
+
+/* =========================================================
+   RECORD PURCHASE
+========================================================= */
+
+function recordPurchase(){
+
+ const date=
+  val("purchaseDate")||today();
+
+ const supplier=
+  val("purchaseSupplier")||
+  "Unknown Supplier";
+
+ const product=
+  val("purchaseProduct");
+
+ const quantity=
+  Number($("purchaseQuantity").value);
+
+ const price=
+  Number($("purchasePrice").value);
+
+
+ if(
+  !product ||
+  !Number.isFinite(quantity) ||
+  quantity<=0 ||
+  !Number.isFinite(price) ||
+  price<=0
+ ){
+
+  alert(
+   "Enter product, quantity and buying price."
+  );
+
+  return;
+
+ }
+
+
+ if(!data.products[product]){
+
+  data.products[product]={
+   name:product,
+   code:"",
+   category:"General",
+   stock:0,
+   cost:price
+  };
+
+ }
+
+
+ data.products[product].cost=price;
+
+
+ const record={
+
+  id:Date.now(),
+  date:date,
+  supplier:supplier,
+  product:product,
+  quantity:quantity,
+  price:price,
+  total:quantity*price
+
+ };
+
+
+ data.purchases.push(record);
+
+
+ data.movements.push({
+
+  id:Date.now()+1,
+  date:date,
+  type:"PURCHASE",
+  product:product,
+  quantity:quantity,
+  location:supplier,
+  note:"Purchase received"
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("purchaseSupplier").value="";
+ $("purchaseProduct").value="";
+ $("purchaseQuantity").value=1;
+ $("purchasePrice").value="";
+
+
+ const balance=
+  getStock(product);
+
+
+ alert(
+  "Purchase recorded successfully.\n\n"+
+  "Current balance: "+
+  balance+
+  " unit(s)"
+ );
+
+}
+
+
+/* =========================================================
+   RECORD SALE
+========================================================= */
+
+function recordSale(){
+
+ const date=
+  val("saleDate")||today();
+
+ const customer=
+  val("saleCustomer")||
+  "Cash Customer";
+
+ const product=
+  val("saleProduct");
+
+ const quantity=
+  Number($("saleQuantity").value);
+
+ const price=
+  Number($("salePrice").value);
+
+
+ if(
+  !product ||
+  !Number.isFinite(quantity) ||
+  quantity<=0 ||
+  !Number.isFinite(price) ||
+  price<=0
+ ){
+
+  alert(
+   "Enter product, quantity and selling price."
+  );
+
+  return;
+
+ }
+
+
+ if(!data.products[product]){
+
+  alert(
+   "Product not found.\n"+
+   "Add the product first."
+  );
+
+  return;
+
+ }
+
+
+ const stock=
+  getStock(product);
+
+
+ if(stock<quantity){
+
+  alert(
+   "Not enough stock.\n\n"+
+   "Available: "+stock+
+   "\nRequested: "+quantity
+  );
+
+  return;
+
+ }
+
+
+ const cost=
+  Number(data.products[product].cost)||0;
+
+
+ data.invoiceNumber=
+  Number(data.invoiceNumber||0)+1;
+
+
+ const invoice=
+  "SM-"+date.substring(0,4)+"-"+
+  String(data.invoiceNumber).padStart(5,"0");
+
+
+ const total=
+  quantity*price;
+
+ const costTotal=
+  quantity*cost;
+
+ const profit=
+  total-costTotal;
+
+
+ data.sales.push({
+
+  id:Date.now(),
+  invoice:invoice,
+  date:date,
+  customer:customer,
+  product:product,
+  quantity:quantity,
+  price:price,
+  total:total,
+  costTotal:costTotal,
+  profit:profit
+
+ });
+
+
+ data.movements.push({
+
+  id:Date.now()+1,
+  date:date,
+  type:"SALE",
+  product:product,
+  quantity:quantity,
+  location:"Sales",
+  note:"Stock sold"
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("saleCustomer").value="";
+ $("saleProduct").value="";
+ $("saleQuantity").value=1;
+ $("salePrice").value="";
+
+
+ alert(
+  "Sale recorded successfully.\n\n"+
+  "Invoice: "+invoice+
+  "\nCurrent balance: "+
+  getStock(product)
+ );
+
+}
+
+
+/* =========================================================
+   TRANSFER IN
+========================================================= */
+
+function recordTransferIn(){
+
+ const date=
+  val("transferInDate")||today();
+
+ const product=
+  val("transferInProduct");
+
+ const quantity=
+  Number($("transferInQuantity").value);
+
+ const from=
+  val("transferInFrom")||
+  "Other Location";
+
+ const note=
+  val("transferInNote")||
+  "Stock received";
+
+
+ if(
+  !product ||
+  !Number.isFinite(quantity) ||
+  quantity<=0
+ ){
+
+  alert(
+   "Enter product and quantity."
+  );
+
+  return;
+
+ }
+
+
+ if(!data.products[product]){
+
+  data.products[product]={
+   name:product,
+   code:"",
+   category:"General",
+   stock:0,
+   cost:0
+  };
+
+ }
+
+
+ const record={
+  id:Date.now(),
+  date:date,
+  product:product,
+  quantity:quantity,
+  location:from,
+  note:note
+ };
+
+
+ data.transferIn.push(record);
+
+
+ data.movements.push({
+
+  id:Date.now()+1,
+  date:date,
+  type:"TRANSFER IN",
+  product:product,
+  quantity:quantity,
+  location:from,
+  note:note
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("transferInProduct").value="";
+ $("transferInQuantity").value="";
+ $("transferInFrom").value="";
+ $("transferInNote").value="";
+
+
+ alert(
+  "Transfer In completed.\n\n"+
+  "Current balance: "+
+  getStock(product)
+ );
+
+}
+
+
+/* =========================================================
+   TRANSFER OUT
+========================================================= */
+
+function recordTransferOut(){
+
+ const date=
+  val("transferOutDate")||today();
+
+ const product=
+  val("transferOutProduct");
+
+ const quantity=
+  Number($("transferOutQuantity").value);
+
+ const to=
+  val("transferOutTo")||
+  "Other Location";
+
+ const note=
+  val("transferOutNote")||
+  "Stock transferred";
+
+
+ if(
+  !product ||
+  !Number.isFinite(quantity) ||
+  quantity<=0
+ ){
+
+  alert(
+   "Enter product and quantity."
+  );
+
+  return;
+
+ }
+
+
+ const stock=
+  getStock(product);
+
+
+ if(!data.products[product]){
+
+  alert("Product does not exist.");
+
+  return;
+
+ }
+
+
+ if(stock<quantity){
+
+  alert(
+   "Not enough stock.\n\n"+
+   "Available: "+stock+
+   "\nRequested: "+quantity
+  );
+
+  return;
+
+ }
+
+
+ const record={
+  id:Date.now(),
+  date:date,
+  product:product,
+  quantity:quantity,
+  location:to,
+  note:note
+ };
+
+
+ data.transferOut.push(record);
+
+
+ data.movements.push({
+
+  id:Date.now()+1,
+  date:date,
+  type:"TRANSFER OUT",
+  product:product,
+  quantity:quantity,
+  location:to,
+  note:note
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("transferOutProduct").value="";
+ $("transferOutQuantity").value="";
+ $("transferOutTo").value="";
+ $("transferOutNote").value="";
+
+
+ alert(
+  "Transfer Out completed.\n\n"+
+  "Current balance: "+
+  getStock(product)
+ );
+
+}
+
+
+/* =========================================================
+   EXPENSE
+========================================================= */
+
+function recordExpense(){
+
+ const date=
+  val("expenseDate")||today();
+
+ const name=
+  val("expenseName");
+
+ const amount=
+  Number($("expenseAmount").value);
+
+
+ if(
+  !name ||
+  !Number.isFinite(amount) ||
+  amount<=0
+ ){
+
+  alert(
+   "Enter expense and amount."
+  );
+
+  return;
+
+ }
+
+
+ data.expenses.push({
+
+  id:Date.now(),
+  date:date,
+  name:name,
+  amount:amount
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("expenseName").value="";
+ $("expenseAmount").value="";
+
+
+ alert("Expense recorded.");
+
+}
+
+
+/* =========================================================
+   SUPPLIER
+========================================================= */
+
+function addSupplier(){
+
+ const name=val("supplierName");
+ const phone=val("supplierPhone");
+
+
+ if(!name){
+
+  alert("Enter supplier name.");
+
+  return;
+
+ }
+
+
+ data.suppliers.push({
+
+  id:Date.now(),
+  name:name,
+  phone:phone
+
+ });
+
+
+ save();
+ renderAll();
+
+
+ $("supplierName").value="";
+ $("supplierPhone").value="";
+
+
+ alert("Supplier added.");
+
+}
+
+
+/* =========================================================
+   PRODUCT OPTIONS
+========================================================= */
+
+function renderProductOptions(){
+
+ let html="";
+
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
+
+  html+=
+   "<option value=\""+
+   safe(name)+
+   "\"></option>";
+
+ });
+
+ $("productOptions").innerHTML=html;
+
+}
+
+
+/* =========================================================
+   PRODUCT FILTER
+========================================================= */
+
+function renderProductFilter(){
+
+ let html=
+  "<option value=\"\">All Products</option>";
+
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
+
+  html+=
+   "<option value=\""+
+   safe(name)+
+   "\">"+
+   safe(name)+
+   "</option>";
+
+ });
+
+ $("inventoryProductFilter").innerHTML=html;
+
+}
+
+
+/* =========================================================
+   PRODUCTS LIST
+========================================================= */
+
+function renderProducts(){
+
+ const search=
+  val("productSearch").toLowerCase();
+
+ let html="";
+
+
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
+
+  const p=data.products[name];
+
+  if(
+   search &&
+   name.toLowerCase().indexOf(search)===-1 &&
+   String(p.code||"")
+    .toLowerCase()
+    .indexOf(search)===-1
+  ){
+
+   return;
+
+  }
+
+
+  const stock=
+   getStock(name);
+
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<span class='item-title'>"+
+   safe(name)+
+   "</span>"+
+   "<span class='badge'>"+
+   "Stock "+stock+
+   "</span>"+
+   "</div>"+
+
+   "<div class='muted'>"+
+   "Code: "+safe(p.code||"-")+
+   " • Category: "+
+   safe(p.category||"General")+
+   "</div>"+
+
+   "<div>"+
+   "Cost: "+money(p.cost)+
+   "</div>"+
+
+   "<button "+
+   "class='btn red delete-product' "+
+   "data-product='"+encodeURIComponent(name)+"'>"+
+   "🗑 DELETE PRODUCT"+
+   "</button>"+
+
+   "</div>";
+
+ });
+
+
+ $("productsList").innerHTML=
+  html||
+  "<div class='empty'>No products found.</div>";
+
+}
+
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function renderInventory(){
+
+ let html="";
+ let totalUnits=0;
+ let value=0;
+ let low=0;
+ let count=0;
+
+
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
+
+  const p=data.products[name];
+
+  const stock=
+   getStock(name);
+
+  const cost=
+   Number(p.cost)||0;
+
+  count++;
+  totalUnits+=stock;
+  value+=stock*cost;
+
+  if(stock<=0){
+   low++;
+  }
+
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<span class='item-title'>"+
+   safe(name)+
+   "</span>"+
+   "<span class='badge'>"+
+   stock+
+   " units"+
+   "</span>"+
+   "</div>"+
+
+   "<div class='muted'>"+
+   "Category: "+
+   safe(p.category||"General")+
+   "</div>"+
+
+   "<div>Unit cost: "+money(cost)+"</div>"+
+
+   "<div>Stock value: "+
+   money(stock*cost)+
+   "</div>"+
+
+   "<div class='"+
+   (stock>0?"stock-good":"stock-zero")+
+   "'>"+
+   (stock>0
+    ?"CURRENT BALANCE: "+stock
+    :"OUT OF STOCK")+
+   "</div>"+
+
+   "</div>";
+
+ });
+
+
+ $("inventoryProducts").textContent=count;
+ $("inventoryUnits").textContent=totalUnits;
+ $("inventoryValue").textContent=money(value);
+ $("inventoryLow").textContent=low;
+
+
+ $("inventoryList").innerHTML=
+  html||
+  "<div class='empty'>No inventory records.</div>";
+
+}
+
+
+/* =========================================================
+   OPENING STOCK LIST
+========================================================= */
+
+function renderOpeningStock(){
+
+ let html="";
+
+
+ data.openingStock
+ .slice()
+ .sort(function(a,b){
+  return String(b.date).localeCompare(String(a.date));
+ })
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<b>"+safe(x.product)+"</b>"+
+   "<span class='badge'>"+
+   Number(x.quantity)+
+   " units"+
+   "</span>"+
+   "</div>"+
+
+   "<div>"+
+   "Date: "+safe(x.date)+
+   "</div>"+
+
+   "<div>"+
+   "Opening cost: "+money(x.cost)+
+   "</div>"+
+
+   "</div>";
+
+ });
+
+
+ $("openingList").innerHTML=
+  html||
+  "<div class='empty'>No opening stock records.</div>";
+
+}
+
+
+/* =========================================================
+   MONTHLY CLOSING STOCK
+   Closing = Opening balance (carried from before the month)
+             + Opening Stock ENTERED during the month
+             + Purchases during the month
+             + Transfer In during the month
+             − Sales during the month
+             − Transfer Out during the month
+========================================================= */
+
+function calculateMonthlyStock(){
+
+ const month=
+  val("inventoryMonth")||
+  currentMonth();
+
+ const productFilter=
+  val("inventoryProductFilter");
+
+ const lastDay=
+  new Date(
+   Number(month.substring(0,4)),
+   Number(month.substring(5,7)),
+   0
+  );
+
+ const endDate=
+  lastDay.getFullYear()+"-"+
+  String(lastDay.getMonth()+1).padStart(2,"0")+"-"+
+  String(lastDay.getDate()).padStart(2,"0");
+
+
+ const previousDate=
+  new Date(
+   Number(month.substring(0,4)),
+   Number(month.substring(5,7))-1,
+   0
+  );
+
+ const previousEnd=
+  previousDate.getFullYear()+"-"+
+  String(previousDate.getMonth()+1).padStart(2,"0")+"-"+
+  String(previousDate.getDate()).padStart(2,"0");
+
+
+ const startDate=
+  month+"-01";
+
+
+ const products=
+  productFilter
+  ?
+  [productFilter]
+  :
+  Object.keys(data.products).sort();
+
+
+ let html=
+  "<div class='table-wrap'>"+
+  "<table>"+
+  "<tr>"+
+  "<th>Product</th>"+
+  "<th>Opening Balance</th>"+
+  "<th>Opening Stock Added</th>"+
+  "<th>Purchases</th>"+
+  "<th>Transfer In</th>"+
+  "<th>Sales</th>"+
+  "<th>Transfer Out</th>"+
+  "<th>Closing Stock</th>"+
+  "</tr>";
+
+
+ let hasRows=false;
+
+
+ products.forEach(function(product){
+
+  hasRows=true;
+
+
+  /* Balance carried forward from before this month started */
+
+  const opening=
+   getStock(product,previousEnd);
+
+
+  let openingAdded=0;
+  let purchases=0;
+  let transferIn=0;
+  let sales=0;
+  let transferOut=0;
+
+
+  /* Actual opening stock entries recorded DURING this month */
+
+  data.openingStock.forEach(function(x){
+
+   if(
+    x.product===product &&
+    x.date>=startDate &&
+    x.date<=endDate
+   ){
+
+    openingAdded+=
+     Number(x.quantity)||0;
+
+   }
+
+  });
+
+
+  data.purchases.forEach(function(x){
+
+   if(
+    x.product===product &&
+    x.date>=startDate &&
+    x.date<=endDate
+   ){
+
+    purchases+=
+     Number(x.quantity)||0;
+
+   }
+
+  });
+
+
+  data.transferIn.forEach(function(x){
+
+   if(
+    x.product===product &&
+    x.date>=startDate &&
+    x.date<=endDate
+   ){
+
+    transferIn+=
+     Number(x.quantity)||0;
+
+   }
+
+  });
+
+
+  data.sales.forEach(function(x){
+
+   if(
+    x.product===product &&
+    x.date>=startDate &&
+    x.date<=endDate
+   ){
+
+    sales+=
+     Number(x.quantity)||0;
+
+   }
+
+  });
+
+
+  data.transferOut.forEach(function(x){
+
+   if(
+    x.product===product &&
+    x.date>=startDate &&
+    x.date<=endDate
+   ){
+
+    transferOut+=
+     Number(x.quantity)||0;
+
+   }
+
+  });
+
+
+  /* Accurate closing stock = opening balance carried forward
+     + actual opening stock entered this month
+     + purchases + transfer in
+     − sales − transfer out
+  */
+
+  const closing=
+   opening+
+   openingAdded+
+   purchases+
+   transferIn-
+   sales-
+   transferOut;
+
+
+  html+=
+   "<tr>"+
+
+   "<td><b>"+
+   safe(product)+
+   "</b></td>"+
+
+   "<td>"+opening+"</td>"+
+   "<td>"+openingAdded+"</td>"+
+   "<td>"+purchases+"</td>"+
+   "<td>"+transferIn+"</td>"+
+   "<td>"+sales+"</td>"+
+   "<td>"+transferOut+"</td>"+
+
+   "<td><b>"+
+   closing+
+   "</b></td>"+
+
+   "</tr>";
+
+ });
+
+
+ html+=
+  "</table>"+
+  "</div>";
+
+
+ if(!hasRows){
+
+  html=
+   "<div class='empty'>No products.</div>";
+
+ }
+
+
+ $("monthlyInventoryResult").innerHTML=
+  "<h4>Month: "+safe(month)+"</h4>"+
+  html;
+
+}
+
+
+/* =========================================================
+   MOVEMENTS
+========================================================= */
+
+function renderMovements(){
+
+ let html="";
+
+
+ data.movements
+ .slice()
+ .sort(function(a,b){
+
+  return String(b.date)
+   .localeCompare(String(a.date));
+
+ })
+ .forEach(function(x){
+
+  let icon="🔄";
+
+  if(x.type==="OPENING STOCK"){
+   icon="📋";
+  }
+
+  if(x.type==="PURCHASE"){
+   icon="🛒";
+  }
+
+  if(x.type==="SALE"){
+   icon="💰";
+  }
+
+  if(x.type==="TRANSFER IN"){
+   icon="📥";
+  }
+
+  if(x.type==="TRANSFER OUT"){
+   icon="📤";
+  }
+
+
+  html+=
+   "<div class='item'>"+
+
+   "<b>"+
+   icon+" "+
+   safe(x.type)+
+   "</b>"+
+
+   "<br>"+
+   safe(x.date)+
+   " • "+
+   safe(x.product)+
+   " × "+
+   Number(x.quantity||0)+
+
+   "<br>"+
+   "<span class='muted'>"+
+   safe(x.location||"")+
+   " • "+
+   safe(x.note||"")+
+   "</span>"+
+
+   "</div>";
+
+ });
+
+
+ $("movementList").innerHTML=
+  html||
+  "<div class='empty'>No movements.</div>";
+
+}
+
+
+/* =========================================================
+   SALES LIST
+========================================================= */
+
+function renderSales(){
+
+ let html="";
+
+
+ data.sales
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<b>"+safe(x.invoice)+"</b>"+
+   "<b>"+money(x.total)+"</b>"+
+   "</div>"+
+
+   "<div>"+
+   safe(x.date)+
+   " • "+
+   safe(x.customer)+
+   "</div>"+
+
+   "<div>"+
+   safe(x.product)+
+   " × "+
+   Number(x.quantity)+
+   "</div>"+
+
+   "<div>"+
+   "Profit: "+
+   money(x.profit)+
+   "</div>"+
+
+   "</div>";
+
+ });
+
+
+ $("salesList").innerHTML=
+  html||
+  "<div class='empty'>No sales recorded.</div>";
+
+}
+
+
+/* =========================================================
+   PURCHASE LIST
+========================================================= */
+
+function renderPurchases(){
+
+ let html="";
+
+
+ data.purchases
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<b>"+safe(x.product)+"</b>"+
+   "<b>"+money(x.total)+"</b>"+
+   "</div>"+
+
+   safe(x.date)+
+   " • "+
+   safe(x.supplier)+
+
+   "<br>"+
+   "Quantity: "+
+   Number(x.quantity)+
+
+   "<br>"+
+   "Buying price: "+
+   money(x.price)+
+
+   "</div>";
+
+ });
+
+
+ $("purchasesList").innerHTML=
+  html||
+  "<div class='empty'>No purchases.</div>";
+
+}
+
+
+/* =========================================================
+   TRANSFER LISTS
+========================================================= */
+
+function renderTransferIn(){
+
+ let html="";
+
+
+ data.transferIn
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<b>📥 "+
+   safe(x.product)+
+   "</b> × "+
+   Number(x.quantity)+
+
+   "<br>Date: "+
+   safe(x.date)+
+
+   "<br>From: "+
+   safe(x.location)+
+
+   "<br>"+
+   safe(x.note)+
+
+   "</div>";
+
+ });
+
+
+ $("transferInList").innerHTML=
+  html||
+  "<div class='empty'>No Transfer In records.</div>";
+
+}
+
+
+function renderTransferOut(){
+
+ let html="";
+
+
+ data.transferOut
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<b>📤 "+
+   safe(x.product)+
+   "</b> × "+
+   Number(x.quantity)+
+
+   "<br>Date: "+
+   safe(x.date)+
+
+   "<br>To: "+
+   safe(x.location)+
+
+   "<br>"+
+   safe(x.note)+
+
+   "</div>";
+
+ });
+
+
+ $("transferOutList").innerHTML=
+  html||
+  "<div class='empty'>No Transfer Out records.</div>";
+
+}
+
+
+/* =========================================================
+   EXPENSE LIST
+========================================================= */
+
+function renderExpenses(){
+
+ let html="";
+
+
+ data.expenses
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<div class='item-head'>"+
+   "<b>"+safe(x.name)+"</b>"+
+   "<b>"+money(x.amount)+"</b>"+
+   "</div>"+
+
+   safe(x.date)+
+
+   "</div>";
+
+ });
+
+
+ $("expensesList").innerHTML=
+  html||
+  "<div class='empty'>No expenses.</div>";
+
+}
+
+
+/* =========================================================
+   SUPPLIERS
+========================================================= */
+
+function renderSuppliers(){
+
+ let html="";
+
+
+ data.suppliers
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='item'>"+
+
+   "<b>"+safe(x.name)+"</b>"+
+
+   "<br>Phone: "+
+   safe(x.phone||"-")+
+
+   "</div>";
+
+ });
+
+
+ $("suppliersList").innerHTML=
+  html||
+  "<div class='empty'>No suppliers.</div>";
+
+}
+
+
+/* =========================================================
+   TOTALS
+========================================================= */
+
+function totals(){
+
+ let sales=0;
+ let purchases=0;
+ let cost=0;
+ let expenses=0;
+
+
+ data.sales.forEach(function(x){
+
+  sales+=Number(x.total)||0;
+  cost+=Number(x.costTotal)||0;
+
+ });
+
+
+ data.purchases.forEach(function(x){
+
+  purchases+=Number(x.total)||0;
+
+ });
+
+
+ data.expenses.forEach(function(x){
+
+  expenses+=Number(x.amount)||0;
+
+ });
+
+
+ const gross=
+  sales-cost;
+
+ const net=
+  gross-expenses;
+
+
+ return{
+  sales:sales,
+  purchases:purchases,
+  cost:cost,
+  expenses:expenses,
+  gross:gross,
+  net:net
+ };
+
+}
+
+
+/* =========================================================
+   REPORTS
+========================================================= */
+
+function renderReports(){
+
+ const t=totals();
+
+
+ $("totalSales").textContent=
+  money(t.sales);
+
+ $("totalPurchases").textContent=
+  money(t.purchases);
+
+ $("totalCost").textContent=
+  money(t.cost);
+
+ $("totalExpenses").textContent=
+  money(t.expenses);
+
+ $("grossProfit").textContent=
+  money(t.gross);
+
+ $("netProfit").textContent=
+  money(t.net);
+
+
+ $("homeSales").textContent=
+  money(t.sales);
+
+ $("homePurchases").textContent=
+  money(t.purchases);
+
+ $("homeExpenses").textContent=
+  money(t.expenses);
+
+ $("homeProfit").textContent=
+  money(t.net);
+
+
+ renderInvoices();
+
+}
+
+
+/* =========================================================
+   INVOICES
+========================================================= */
+
+function renderInvoices(){
+
+ let html="";
+
+
+ data.sales
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<div class='invoice'>"+
+
+   "<div class='invoice-title'>"+
+   "<h3>SM BUSINESS ACCOUNTING</h3>"+
+   "<b>SALES INVOICE</b>"+
+   "</div>"+
+
+   "<hr>"+
+
+   "<b>Invoice:</b> "+
+   safe(x.invoice)+
+
+   "<br>"+
+
+   "<b>Date:</b> "+
+   safe(x.date)+
+
+   "<br>"+
+
+   "<b>Customer:</b> "+
+   safe(x.customer)+
+
+   "<br><br>"+
+
+   "<div class='table-wrap'>"+
+   "<table>"+
+
+   "<tr>"+
+   "<th>Product</th>"+
+   "<th>Qty</th>"+
+   "<th>Price</th>"+
+   "<th>Total</th>"+
+   "</tr>"+
+
+   "<tr>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+x.quantity+"</td>"+
+   "<td>"+money(x.price)+"</td>"+
+   "<td>"+money(x.total)+"</td>"+
+   "</tr>"+
+
+   "</table>"+
+   "</div>"+
+
+   "<br>"+
+
+   "<div class='total-line'>"+
+   "<span>TOTAL</span>"+
+   "<span>"+money(x.total)+"</span>"+
+   "</div>"+
+
+   "</div>";
+
+ });
+
+
+ $("invoiceList").innerHTML=
+  html||
+  "<div class='empty'>No invoices.</div>";
+
+}
+
+
+/* =========================================================
+   MONTHLY REPORT
+========================================================= */
+
+function monthlyReport(){
+
+ const month=
+  val("reportMonth")||
+  currentMonth();
+
+
+ let sales=0;
+ let purchases=0;
+ let expenses=0;
+ let cost=0;
+
+
+ data.sales.forEach(function(x){
+
+  if(
+   x.date.startsWith(month)
+  ){
+
+   sales+=Number(x.total)||0;
+   cost+=Number(x.costTotal)||0;
+
+  }
+
+ });
+
+
+ data.purchases.forEach(function(x){
+
+  if(
+   x.date.startsWith(month)
+  ){
+
+   purchases+=Number(x.total)||0;
+
+  }
+
+ });
+
+
+ data.expenses.forEach(function(x){
+
+  if(
+   x.date.startsWith(month)
+  ){
+
+   expenses+=Number(x.amount)||0;
+
+  }
+
+ });
+
+
+ const gross=sales-cost;
+ const net=gross-expenses;
+
+
+ $("monthlyReportResult").innerHTML=
+
+  "<div class='box'>"+
+
+  "<div class='total-line'>"+
+  "<span>Month</span>"+
+  "<span>"+safe(month)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Sales</span>"+
+  "<span>"+money(sales)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Purchases</span>"+
+  "<span>"+money(purchases)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Cost of Goods Sold</span>"+
+  "<span>"+money(cost)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Expenses</span>"+
+  "<span>"+money(expenses)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Gross Profit</span>"+
+  "<span>"+money(gross)+"</span>"+
+  "</div>"+
+
+  "<div class='total-line'>"+
+  "<span>Net Profit</span>"+
+  "<span>"+money(net)+"</span>"+
+  "</div>"+
+
+  "</div>";
+
+}
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function backupText(){
+
+ return JSON.stringify(
+  data,
+  null,
+  2
+ );
+
+}
+
+
+function downloadBackup(){
+
+ const text=backupText();
+
+ $("backupText").value=text;
+
+
+ const blob=
+  new Blob(
+   [text],
+   {type:"application/json"}
+  );
+
+
+ const url=
+  URL.createObjectURL(blob);
+
+
+ const a=
+  document.createElement("a");
+
+
+ a.href=url;
+
+ a.download=
+  "SM_BUSINESS_ACCOUNTING_BACKUP_"+
+  today()+
+  ".json";
+
+
+ document.body.appendChild(a);
+
+ a.click();
+
+ a.remove();
+
+ URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   COPY BACKUP
+========================================================= */
+
+function copyBackup(){
+
+ const text=backupText();
+
+ $("backupText").value=text;
+
+
+ if(
+  navigator.clipboard &&
+  navigator.clipboard.writeText
+ ){
+
+  navigator.clipboard
+  .writeText(text)
+  .then(function(){
+
+   alert(
+    "Backup copied successfully."
+   );
+
+  })
+  .catch(function(){
+
+   fallbackCopy();
+
+  });
+
+ }else{
+
+  fallbackCopy();
+
+ }
+
+}
+
+
+function fallbackCopy(){
+
+ $("backupText").focus();
+ $("backupText").select();
+
+ try{
+
+  document.execCommand("copy");
+
+  alert("Backup copied.");
+
+ }catch(e){
+
+  alert(
+   "Copy failed. Select the backup text manually."
+  );
+
+ }
+
+}
+
+
+/* =========================================================
+   PRINT REPORT
+========================================================= */
+
+function printReport(){
+
+ const t=totals();
+
+ let html=
+ "<!DOCTYPE html>"+
+ "<html><head>"+
+ "<title>SM BUSINESS ACCOUNTING REPORT</title>"+
+ "<style>"+
+ "body{font-family:Arial;padding:30px}"+
+ "table{width:100%;border-collapse:collapse}"+
+ "th,td{border:1px solid #ccc;padding:8px;text-align:left}"+
+ "th{background:#123b56;color:white}"+
+ "</style>"+
+ "</head><body>"+
+
+ "<h1>SM BUSINESS ACCOUNTING</h1>"+
+ "<h2>Accounting Report</h2>"+
+
+ "<p>Total Sales: "+money(t.sales)+"</p>"+
+ "<p>Total Purchases: "+money(t.purchases)+"</p>"+
+ "<p>Cost of Goods Sold: "+money(t.cost)+"</p>"+
+ "<p>Expenses: "+money(t.expenses)+"</p>"+
+ "<h2>Gross Profit: "+money(t.gross)+"</h2>"+
+ "<h2>Net Profit: "+money(t.net)+"</h2>"+
+
+ "<h2>Inventory</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Product</th>"+
+ "<th>Current Stock</th>"+
+ "<th>Cost</th>"+
+ "<th>Value</th>"+
+ "</tr>";
+
+
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
+
+  const p=data.products[name];
+  const stock=getStock(name);
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(name)+"</td>"+
+   "<td>"+stock+"</td>"+
+   "<td>"+money(p.cost)+"</td>"+
+   "<td>"+money(stock*(Number(p.cost)||0))+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+  "</table>"+
+  "</body></html>";
+
+
+ const win=
+  window.open("","_blank");
+
+
+ if(!win){
+
+  alert(
+   "Allow pop-ups to print the report."
+  );
+
+  return;
+
+ }
+
+
+ win.document.open();
+ win.document.write(html);
+ win.document.close();
+
+
+ setTimeout(function(){
+  win.print();
+ },500);
+
+}
+
+
+/* =========================================================
+   RESTORE
+========================================================= */
+
+function restoreData(){
+
+ const text=
+  val("restoreText");
+
+
+ if(!text){
+
+  alert(
+   "Paste backup JSON or select a backup file."
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  const x=
+   JSON.parse(text);
+
+
+  if(
+   !x ||
+   typeof x!=="object" ||
+   !x.products
+  ){
+
+   throw new Error(
+    "Invalid backup"
+   );
+
+  }
+
+
+  if(
+   !confirm(
+    "Restore this backup?\n\n"+
+    "Your current accounting data will be replaced."
+   )
+  ){
+
+   return;
+
+  }
+
+
+  data=
+   normalizeData(x);
+
+
+  save();
+  renderAll();
+
+
+  alert(
+   "Data restored successfully."
+  );
+
+
+  showPage("pageHome");
+
+
+ }catch(error){
+
+  alert(
+   "Invalid backup file."
+  );
+
+ }
+
+}
+
+
+/* =========================================================
+   RESTORE FILE
+========================================================= */
+
+function restoreFile(event){
+
+ const file=
+  event.target.files[0];
+
+
+ if(!file){
+  return;
+ }
+
+
+ const reader=
+  new FileReader();
+
+
+ reader.onload=function(e){
+
+  $("restoreText").value=
+   e.target.result;
+
+ };
+
+
+ reader.onerror=function(){
+
+  alert(
+   "Unable to read the backup file."
+  );
+
+ };
+
+
+ reader.readAsText(file);
+
+}
+
+
+/* =========================================================
+   DELETE DATA
+========================================================= */
+
+function deleteAllData(){
+
+ if(
+  !confirm(
+   "WARNING!\n\n"+
+   "This will delete all accounting data.\n\n"+
+   "Continue?"
+  )
+ ){
+
+  return;
+
+ }
+
+
+ if(
+  !confirm(
+   "FINAL WARNING!\n\n"+
+   "Delete EVERYTHING?"
+  )
+ ){
+
+  return;
+
+ }
+
+
+ data={
+  products:{},
+  sales:[],
+  purchases:[],
+  openingStock:[],
+  expenses:[],
+  suppliers:[],
+  movements:[],
+  transferIn:[],
+  transferOut:[],
+  invoiceNumber:0
+ };
+
+
+ save();
+ renderAll();
+
+
+ alert(
+  "All accounting data deleted."
+ );
+
+}
+
+
+/* =========================================================
+   CHANGE LOGIN
+========================================================= */
+
+function changeLogin(){
+
+ const current=
+  getLogin();
+
+ const username=
+  val("newUsername");
+
+ const password=
+  $("newPassword").value;
+
+ const confirmPassword=
+  $("confirmPassword").value;
+
+
+ if(!username){
+
+  alert(
+   "Enter a new username."
+  );
+
+  return;
+
+ }
+
+
+ if(password.length<4){
+
+  alert(
+   "Password must contain at least 4 characters."
+  );
+
+  return;
+
+ }
+
+
+ if(password!==confirmPassword){
+
+  alert(
+   "Passwords do not match."
+  );
+
+  return;
+
+ }
+
+
+ if(
+  !confirm(
+   "Change the login username and password?"
+  )
+ ){
+
+  return;
+
+ }
+
+
+ saveLogin(
+  username,
+  password
+ );
+
+
+ $("newUsername").value="";
+ $("newPassword").value="";
+ $("confirmPassword").value="";
+
+
+ $("currentUsername").textContent=
+  username;
+
+
+ alert(
+  "Login details changed successfully.\n\n"+
+  "Use the new username and password next time you log in."
+ );
+
+
+}
+
+
+/* =========================================================
+   SETTINGS DISPLAY
+========================================================= */
+
+function renderSettings(){
+
+ $("currentUsername").textContent=
+  getLogin().username;
+
+}
+
+
+/* =========================================================
+   RENDER PAGE
+========================================================= */
+
+function renderPage(pageId){
+
+ switch(pageId){
+
+  case "pageHome":
+   renderReports();
+   break;
+
+  case "pageSales":
+   renderSales();
+   break;
+
+  case "pagePurchases":
+   renderPurchases();
+   break;
+
+  case "pageProducts":
+   renderProducts();
+   break;
+
+  case "pageOpeningStock":
+   renderOpeningStock();
+   break;
+
+  case "pageInventory":
+   renderInventory();
+   renderMovements();
+   break;
+
+  case "pageTransferIn":
+   renderTransferIn();
+   break;
+
+  case "pageTransferOut":
+   renderTransferOut();
+   break;
+
+  case "pageExpenses":
+   renderExpenses();
+   break;
+
+  case "pageSuppliers":
+   renderSuppliers();
+   break;
+
+  case "pageReports":
+   renderReports();
+   break;
+
+  case "pageSettings":
+   renderSettings();
+   break;
+
+ }
+
+}
+
+
+/* =========================================================
+   RENDER ALL
+========================================================= */
+
+function renderAll(){
+
+ renderProductOptions();
+ renderProductFilter();
+
+ renderProducts();
+ renderOpeningStock();
+ renderInventory();
+ renderMovements();
+
+ renderSales();
+ renderPurchases();
+
+ renderTransferIn();
+ renderTransferOut();
+
+ renderExpenses();
+ renderSuppliers();
+
+ renderReports();
+ renderSettings();
+
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+function setupEvents(){
+
+ /* ----------------------------------------------
+    LOGIN
+ ---------------------------------------------- */
+
+ $("loginForm")
+ .addEventListener(
+  "submit",
+  function(event){
+
+   event.preventDefault();
+
+   login();
+
+  }
+ );
+
+
+ /* ----------------------------------------------
+    NAVIGATION
+ ---------------------------------------------- */
+
+ document.addEventListener(
+  "click",
+  function(event){
+
+   const pageButton=
+    event.target.closest(
+     "[data-page]"
+    );
+
+
+   if(pageButton){
+
+    showPage(
+     pageButton.dataset.page
+    );
+
+   }
+
+  }
+ );
+
+
+ /* ----------------------------------------------
+    LOGOUT
+ ---------------------------------------------- */
+
+ $("logoutButton")
+ .addEventListener(
+  "click",
+  function(){
+
+   if(
+    confirm("Log out?")
+   ){
+
+    logout();
+
+   }
+
+  }
+ );
+
+
+ $("settingsLogout")
+ .addEventListener(
+  "click",
+  function(){
+
+   if(
+    confirm("Log out?")
+   ){
+
+    logout();
+
+   }
+
+  }
+ );
+
+
+ $("headerSettings")
+ .addEventListener(
+  "click",
+  function(){
+
+   showPage("pageSettings");
+
+  }
+ );
+
+
+ /* ----------------------------------------------
+    MAIN BUTTONS
+ ---------------------------------------------- */
+
+ $("productButton")
+ .addEventListener(
+  "click",
+  addProduct
+ );
+
+
+ $("saleButton")
+ .addEventListener(
+  "click",
+  recordSale
+ );
+
+
+ $("purchaseButton")
+ .addEventListener(
+  "click",
+  recordPurchase
+ );
+
+
+ $("openingButton")
+ .addEventListener(
+  "click",
+  recordOpeningStock
+ );
+
+
+ $("transferInButton")
+ .addEventListener(
+  "click",
+  recordTransferIn
+ );
+
+
+ $("transferOutButton")
+ .addEventListener(
+  "click",
+  recordTransferOut
+ );
+
+
+ $("expenseButton")
+ .addEventListener(
+  "click",
+  recordExpense
+ );
+
+
+ $("supplierButton")
+ .addEventListener(
+  "click",
+  addSupplier
+ );
+
+
+ $("changeLoginButton")
+ .addEventListener(
+  "click",
+  changeLogin
+ );
+
+
+ $("monthlyInventoryButton")
+ .addEventListener(
+  "click",
+  calculateMonthlyStock
+ );
+
+
+ $("monthlyReportButton")
+ .addEventListener(
+  "click",
+  monthlyReport
+ );
+
+
+ $("jsonBackupButton")
+ .addEventListener(
+  "click",
+  downloadBackup
+ );
+
+
+ $("copyBackupButton")
+ .addEventListener(
+  "click",
+  copyBackup
+ );
+
+
+ $("pdfBackupButton")
+ .addEventListener(
+  "click",
+  printReport
+ );
+
+
+ $("restoreButton")
+ .addEventListener(
+  "click",
+  restoreData
+ );
+
+
+ $("deleteButton")
+ .addEventListener(
+  "click",
+  deleteAllData
+ );
+
+
+ $("restoreFile")
+ .addEventListener(
+  "change",
+  restoreFile
+ );
+
+
+ $("productSearch")
+ .addEventListener(
+  "input",
+  renderProducts
+ );
+
+
+ /* ----------------------------------------------
+    DELETE PRODUCT
+ ---------------------------------------------- */
+
+ $("productsList")
+ .addEventListener(
+  "click",
+  function(event){
+
+   const button=
+    event.target.closest(
+     ".delete-product"
+    );
+
+   if(!button){
+    return;
+   }
+
+
+   const name=
+    decodeURIComponent(
+     button.dataset.product
+    );
+
+
+   deleteProduct(name);
+
+  }
+ );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+function start(){
+
+ load();
+
+ setDates();
+
+ setupEvents();
+
+ checkSession();
+
+ renderAll();
+
+}
+
+
+/* =========================================================
+   START AFTER HTML READY
+========================================================= */
+
+if(
+ document.readyState==="loading"
+){
+
+ document.addEventListener(
+  "DOMContentLoaded",
+  start
+ );
+
+}else{
+
+ start();
+
+}
+
+</script>
+
+</body>
+</html>
