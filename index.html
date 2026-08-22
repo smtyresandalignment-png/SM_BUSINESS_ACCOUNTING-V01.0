@@ -5135,6 +5135,18 @@ if(
 }
 
 </script>
-
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(function (registration) {
+        console.log("SM BUSINESS ACCOUNTING offline mode enabled");
+      })
+      .catch(function (error) {
+        console.error("Offline mode registration failed:", error);
+      });
+  });
+}
+</script>
 </body>
 </html>
