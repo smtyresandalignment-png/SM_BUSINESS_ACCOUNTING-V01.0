@@ -1,1 +1,12 @@
 
+{
+  "name": "SM BUSINESS ACCOUNTING",
+  "short_name": "SM ACCOUNTING",
+  "description": "Offline business accounting application",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#10243a",
+  "theme_color": "#10243a",
+  "orientation": "portrait"
+}
