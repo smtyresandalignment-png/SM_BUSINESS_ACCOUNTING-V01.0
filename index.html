@@ -4983,6 +4983,11 @@ function downloadPdfBackup(){
 
 function printReport(){
 
+ sessionStorage.setItem(
+  "SM_REPORT_RETURN_URL",
+  window.location.href
+ );
+
  const reportData = backupText();
 
  const oldPage = document.body.innerHTML;
