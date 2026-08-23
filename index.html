@@ -4977,208 +4977,531 @@ function downloadPdfBackup(){
 
 
 /* =========================================================
-   PRINT / PDF REPORT
-   Android-safe version - no popup window
+   PRINT / PDF FINANCIAL REPORT
+   NEW REPORT PAGE WITH BACK ARROW
 ========================================================= */
 
 function printReport(){
 
- sessionStorage.setItem(
-  "SM_REPORT_RETURN_URL",
-  window.location.href
- );
+ const t=totals();
 
- const reportData = backupText();
+ let html=
+ "<!DOCTYPE html>"+
+ "<html lang='en'>"+
+ "<head>"+
+ "<meta charset='UTF-8'>"+
+ "<meta name='viewport' content='width=device-width,initial-scale=1.0'>"+
+ "<title>SM BUSINESS ACCOUNTING REPORT</title>"+
+ "<style>"+
 
- const oldPage = document.body.innerHTML;
+ "body{"+
+ "font-family:Arial,Helvetica,sans-serif;"+
+ "margin:0;"+
+ "padding:0;"+
+ "background:#eef3f8;"+
+ "color:#172638;"+
+ "}"+
 
- const reportHTML = `
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+ ".report-toolbar{"+
+ "position:sticky;"+
+ "top:0;"+
+ "z-index:9999;"+
+ "display:flex;"+
+ "gap:8px;"+
+ "padding:10px;"+
+ "background:#071b2b;"+
+ "box-shadow:0 3px 12px rgba(0,0,0,.2);"+
+ "}"+
 
-<title>SM BUSINESS ACCOUNTING - Report</title>
+ ".report-toolbar button{"+
+ "border:0;"+
+ "border-radius:9px;"+
+ "padding:12px 15px;"+
+ "color:white;"+
+ "font-weight:bold;"+
+ "font-size:13px;"+
+ "}"+
 
-<style>
+ ".back-button{"+
+ "background:#34495e;"+
+ "}"+
 
-*{
- box-sizing:border-box;
-}
+ ".print-button{"+
+ "background:#e27a20;"+
+ "}"+
 
-body{
- margin:0;
- padding:0;
- font-family:Arial,sans-serif;
- background:#f2f4f7;
- color:#111;
-}
+ ".report-page{"+
+ "max-width:1050px;"+
+ "margin:20px auto;"+
+ "background:white;"+
+ "padding:25px;"+
+ "border-radius:16px;"+
+ "box-shadow:0 4px 18px rgba(0,0,0,.08);"+
+ "}"+
 
-.reportToolbar{
- position:sticky;
- top:0;
- z-index:9999;
- display:flex;
- gap:10px;
- padding:12px;
- background:#10243a;
- box-shadow:0 2px 8px rgba(0,0,0,.2);
-}
+ ".report-title{text-align:center}"+
+ ".report-title h1{color:#10243a;margin-bottom:5px}"+
+ ".report-title h2{color:#087d91}"+
 
-.reportToolbar button{
- flex:1;
- border:0;
- border-radius:8px;
- padding:13px 10px;
- font-size:15px;
- font-weight:bold;
- cursor:pointer;
-}
+ ".summary{"+
+ "display:grid;"+
+ "grid-template-columns:repeat(3,1fr);"+
+ "gap:10px;"+
+ "margin:20px 0;"+
+ "}"+
 
-.backReport{
- background:#fff;
- color:#10243a;
-}
+ ".summary-card{"+
+ "padding:15px;"+
+ "border:1px solid #dce5ea;"+
+ "border-radius:12px;"+
+ "}"+
 
-.printReport{
- background:#22a06b;
- color:#fff;
-}
+ ".summary-card small{"+
+ "display:block;"+
+ "color:#71808a;"+
+ "font-weight:bold;"+
+ "}"+
 
-.pdfReport{
- background:#d64545;
- color:#fff;
-}
+ ".summary-card strong{"+
+ "display:block;"+
+ "margin-top:7px;"+
+ "font-size:19px;"+
+ "color:#087d91;"+
+ "}"+
 
-.reportPage{
- max-width:900px;
- margin:20px auto;
- padding:25px;
- background:#fff;
- min-height:80vh;
- box-shadow:0 2px 12px rgba(0,0,0,.12);
-}
+ ".section-title{"+
+ "margin-top:25px;"+
+ "color:#123b56;"+
+ "}"+
 
-.reportTitle{
- text-align:center;
- font-size:24px;
- font-weight:bold;
- margin-bottom:20px;
-}
+ "table{"+
+ "width:100%;"+
+ "border-collapse:collapse;"+
+ "margin-bottom:20px;"+
+ "}"+
 
-.reportContent{
- white-space:pre-wrap;
- word-break:break-word;
- font-family:monospace;
- font-size:13px;
- line-height:1.5;
-}
+ "th,td{"+
+ "border:1px solid #dce4e8;"+
+ "padding:8px;"+
+ "font-size:12px;"+
+ "text-align:left;"+
+ "}"+
 
-@media print{
+ "th{"+
+ "background:#123b56;"+
+ "color:white;"+
+ "}"+
 
- .reportToolbar{
-  display:none !important;
- }
+ ".footer{"+
+ "text-align:center;"+
+ "margin-top:30px;"+
+ "font-size:11px;"+
+ "color:#71808a;"+
+ "}"+
 
- body{
-  background:#fff;
- }
+ "@media(max-width:600px){"+
+ ".summary{grid-template-columns:1fr 1fr}"+
+ ".report-page{margin:10px;padding:14px}"+
+ ".report-toolbar button{font-size:11px;padding:10px}"+
+ "}"+
 
- .reportPage{
-  margin:0;
-  padding:10px;
-  box-shadow:none;
-  max-width:none;
- }
+ "@media print{"+
+ ".report-toolbar{display:none!important}"+
+ "body{background:white}"+
+ ".report-page{margin:0;box-shadow:none;border-radius:0;max-width:none}"+
+ "}"+
 
-}
+ "</style>"+
+ "</head>"+
+ "<body>"+
 
-</style>
-</head>
+ "<div class='report-toolbar'>"+
 
-<body>
+ "<button class='back-button' onclick='window.close();"+
+ "if(!window.closed){history.back();}'>"+
+ "← BACK"+
+ "</button>"+
 
-<div class="reportToolbar">
+ "<button class='print-button' onclick='window.print()'>"+
+ "🖨 PRINT / SAVE AS PDF"+
+ "</button>"+
 
-<button
- class="backReport"
- onclick="returnToBackup()">
-⬅ BACK
-</button>
+ "</div>"+
 
-<button
- class="printReport"
- onclick="window.print()">
-🖨 PRINT
-</button>
+ "<div class='report-page'>"+
 
-<button
- class="pdfReport"
- onclick="window.print()">
-📄 SAVE AS PDF
-</button>
+ "<div class='report-title'>"+
+ "<h1>SM BUSINESS ACCOUNTING</h1>"+
+ "<h2>ACCOUNTING REPORT</h2>"+
+ "<p>Report Date: "+safe(today())+"</p>"+
+ "</div>"+
 
-</div>
+ "<div class='summary'>"+
 
-<div class="reportPage">
+ "<div class='summary-card'>"+
+ "<small>TOTAL SALES</small>"+
+ "<strong>"+money(t.sales)+"</strong>"+
+ "</div>"+
 
-<div class="reportTitle">
-SM BUSINESS ACCOUNTING
-<br>
-REPORT
-</div>
+ "<div class='summary-card'>"+
+ "<small>TOTAL PURCHASES</small>"+
+ "<strong>"+money(t.purchases)+"</strong>"+
+ "</div>"+
 
-<div class="reportContent" id="reportContent"></div>
+ "<div class='summary-card'>"+
+ "<small>COST OF GOODS SOLD</small>"+
+ "<strong>"+money(t.cost)+"</strong>"+
+ "</div>"+
 
-</div>
+ "<div class='summary-card'>"+
+ "<small>EXPENSES</small>"+
+ "<strong>"+money(t.expenses)+"</strong>"+
+ "</div>"+
 
-<script>
+ "<div class='summary-card'>"+
+ "<small>GROSS PROFIT</small>"+
+ "<strong>"+money(t.gross)+"</strong>"+
+ "</div>"+
 
-const reportData =
-${JSON.stringify(reportData)};
+ "<div class='summary-card'>"+
+ "<small>NET PROFIT</small>"+
+ "<strong>"+money(t.net)+"</strong>"+
+ "</div>"+
 
-document.getElementById(
- "reportContent"
-).textContent = reportData;
+ "</div>"+
+
+ "<h2 class='section-title'>Inventory</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Product</th>"+
+ "<th>Category</th>"+
+ "<th>Current Stock</th>"+
+ "<th>Unit Cost</th>"+
+ "<th>Stock Value</th>"+
+ "</tr>";
 
 
-function returnToBackup(){
+ Object.keys(data.products)
+ .sort()
+ .forEach(function(name){
 
- const returnUrl =
- sessionStorage.getItem(
-  "SM_REPORT_RETURN_URL"
- );
+  const p=data.products[name];
+  const stock=getStock(name);
+  const cost=Number(p.cost)||0;
 
- if(returnUrl){
+  html+=
+   "<tr>"+
+   "<td>"+safe(name)+"</td>"+
+   "<td>"+safe(p.category||"General")+"</td>"+
+   "<td>"+stock+"</td>"+
+   "<td>"+money(cost)+"</td>"+
+   "<td>"+money(stock*cost)+"</td>"+
+   "</tr>";
 
-  sessionStorage.removeItem(
-   "SM_REPORT_RETURN_URL"
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Sales</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Invoice</th>"+
+ "<th>Date</th>"+
+ "<th>Customer</th>"+
+ "<th>Product</th>"+
+ "<th>Qty</th>"+
+ "<th>Total</th>"+
+ "</tr>";
+
+
+ data.sales
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.invoice)+"</td>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.customer)+"</td>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+Number(x.quantity||0)+"</td>"+
+   "<td>"+money(x.total)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Purchases</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Date</th>"+
+ "<th>Supplier</th>"+
+ "<th>Product</th>"+
+ "<th>Qty</th>"+
+ "<th>Total</th>"+
+ "</tr>";
+
+
+ data.purchases
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.supplier)+"</td>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+Number(x.quantity||0)+"</td>"+
+   "<td>"+money(x.total)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Expenses</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Date</th>"+
+ "<th>Description</th>"+
+ "<th>Amount</th>"+
+ "</tr>";
+
+
+ data.expenses
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.name)+"</td>"+
+   "<td>"+money(x.amount)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Opening Stock</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Date</th>"+
+ "<th>Product</th>"+
+ "<th>Quantity</th>"+
+ "<th>Cost</th>"+
+ "</tr>";
+
+
+ data.openingStock
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+Number(x.quantity||0)+"</td>"+
+   "<td>"+money(x.cost)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Transfer In</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Date</th>"+
+ "<th>Product</th>"+
+ "<th>Quantity</th>"+
+ "<th>From</th>"+
+ "</tr>";
+
+
+ data.transferIn
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+Number(x.quantity||0)+"</td>"+
+   "<td>"+safe(x.location)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<h2 class='section-title'>Transfer Out</h2>"+
+
+ "<table>"+
+ "<tr>"+
+ "<th>Date</th>"+
+ "<th>Product</th>"+
+ "<th>Quantity</th>"+
+ "<th>To</th>"+
+ "</tr>";
+
+
+ data.transferOut
+ .slice()
+ .reverse()
+ .forEach(function(x){
+
+  html+=
+   "<tr>"+
+   "<td>"+safe(x.date)+"</td>"+
+   "<td>"+safe(x.product)+"</td>"+
+   "<td>"+Number(x.quantity||0)+"</td>"+
+   "<td>"+safe(x.location)+"</td>"+
+   "</tr>";
+
+ });
+
+
+ html+=
+ "</table>"+
+
+ "<div class='footer'>"+
+ "SM BUSINESS ACCOUNTING • Generated locally on this device"+
+ "</div>"+
+
+ "</div>"+
+
+ "</body>"+
+ "</html>";
+
+
+ const win=
+  window.open(
+   "",
+   "_blank"
   );
 
-  window.location.href = returnUrl;
 
- }else{
+ if(!win){
 
-  window.location.reload();
+  alert(
+   "Allow pop-ups to print the report."
+  );
+
+  return;
+
+ }
+
+
+ win.document.open();
+ win.document.write(html);
+ win.document.close();
+
+}
+
+
+/* =========================================================
+   RESTORE
+========================================================= */
+
+function restoreData(){
+
+ const text=
+  val("restoreText");
+
+
+ if(!text){
+
+  alert(
+   "Paste backup JSON or select a backup file."
+  );
+
+  return;
+
+ }
+
+
+ try{
+
+  const x=
+   JSON.parse(text);
+
+
+  if(
+   !x ||
+   typeof x!=="object" ||
+   !x.products
+  ){
+
+   throw new Error(
+    "Invalid backup"
+   );
+
+  }
+
+
+  if(
+   !confirm(
+    "Restore this backup?\n\n"+
+    "Your current accounting data will be replaced."
+   )
+  ){
+
+   return;
+
+  }
+
+
+  data=
+   normalizeData(x);
+
+
+  save();
+  renderAll();
+
+
+  alert(
+   "Data restored successfully."
+  );
+
+
+  showPage("pageHome");
+
+
+ }catch(error){
+
+  alert(
+   "Invalid backup file."
+  );
 
  }
 
 }
 
-}
-
-</script>
-
-</body>
-</html>
-`;
-
- document.open();
- document.write(reportHTML);
- document.close();
-
-}
 
 /* =========================================================
    RESTORE FILE
