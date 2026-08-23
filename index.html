@@ -5145,10 +5145,26 @@ document.getElementById(
 
 function returnToBackup(){
 
- window.location.href =
- window.location.pathname +
- window.location.search +
- window.location.hash;
+ const returnUrl =
+ sessionStorage.getItem(
+  "SM_REPORT_RETURN_URL"
+ );
+
+ if(returnUrl){
+
+  sessionStorage.removeItem(
+   "SM_REPORT_RETURN_URL"
+  );
+
+  window.location.href = returnUrl;
+
+ }else{
+
+  window.location.reload();
+
+ }
+
+}
 
 }
 
