@@ -4317,7 +4317,7 @@ function downloadBackup(){
 
 
 /* =========================================================
-   COPY BACKUP
+   COPY BACKUP + DELETE BACKUP TEXT
 ========================================================= */
 
 function copyBackup(){
@@ -4378,6 +4378,40 @@ function fallbackCopy(){
 }
 
 
+/* =========================================================
+   DELETE / CLEAR BACKUP TEXT
+========================================================= */
+
+function deleteBackupText(){
+
+ const box=$("backupText");
+
+ if(!box){
+  return;
+ }
+
+ if(!box.value){
+
+  alert("There is no backup data to delete.");
+
+  return;
+ }
+
+ const confirmed=confirm(
+  "Delete the backup data from the box?"
+ );
+
+ if(!confirmed){
+  return;
+ }
+
+ box.value="";
+
+ alert(
+  "Backup data deleted from the box."
+ );
+
+}
 /* =========================================================
    PRINT REPORT
 ========================================================= */
